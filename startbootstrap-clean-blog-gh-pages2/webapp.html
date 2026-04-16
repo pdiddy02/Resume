@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Riddle Quest — Payton Webley</title>
+    <style>
+        :root {
+            color-scheme: dark;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: radial-gradient(circle at top left, #2a4365 0%, #0f172a 50%, #070b16 100%);
+            color: #e2e8f0;
+        }
+        * { box-sizing: border-box; }
+        body {
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+        .app-shell {
+            width: min(980px, 100%);
+            background: rgba(15, 23, 42, 0.95);
+            border: 1px solid rgba(148, 163, 184, 0.12);
+            border-radius: 24px;
+            box-shadow: 0 32px 80px rgba(15, 23, 42, 0.45);
+            overflow: hidden;
+        }
+        header {
+            background: linear-gradient(135deg, rgba(72, 187, 120, 0.9), rgba(59, 130, 246, 0.9));
+            padding: 2rem;
+            text-align: center;
+        }
+        header h1 {
+            margin: 0;
+            font-size: clamp(2rem, 4vw, 3.3rem);
+            letter-spacing: -0.04em;
+            color: #f8fafc;
+        }
+        header p {
+            margin: 1rem auto 0;
+            max-width: 40rem;
+            color: #dbeafe;
+            line-height: 1.75;
+        }
+        .content {
+            padding: 2rem;
+            display: grid;
+            gap: 1.5rem;
+        }
+        .card {
+            background: rgba(15, 23, 42, 0.88);
+            border: 1px solid rgba(148, 163, 184, 0.16);
+            border-radius: 18px;
+            padding: 1.6rem;
+        }
+        .card h2 {
+            margin-top: 0;
+            margin-bottom: 0.75rem;
+            font-size: 1.4rem;
+            color: #cffafe;
+        }
+        .riddle-text {
+            margin: 0;
+            font-size: 1.2rem;
+            line-height: 1.7;
+            color: #e2e8f0;
+        }
+        .controls {
+            display: grid;
+            gap: 1rem;
+        }
+        .controls input,
+        .controls button {
+            width: 100%;
+            font-size: 1rem;
+            border-radius: 12px;
+            border: 1px solid rgba(148, 163, 184, 0.22);
+            padding: 0.95rem 1rem;
+            background: rgba(15, 23, 42, 0.88);
+            color: #e2e8f0;
+        }
+        .controls button {
+            cursor: pointer;
+            transition: transform 0.15s ease, background 0.15s ease;
+        }
+        .controls button:hover {
+            transform: translateY(-1px);
+            background: rgba(59, 130, 246, 0.95);
+        }
+        .status-panel {
+            display: grid;
+            grid-template-columns: repeat(auto-fit,minmax(130px,1fr));
+            gap: 1rem;
+        }
+        .status-block {
+            background: rgba(71, 85, 105, 0.82);
+            border-radius: 14px;
+            padding: 1rem;
+            text-align: center;
+        }
+        .status-block strong {
+            display: block;
+            font-size: 1.6rem;
+            color: #f8fafc;
+        }
+        .status-block span {
+            color: #cbd5e1;
+        }
+        .hint-box,
+        .result-box {
+            color: #f8fafc;
+            background: rgba(30, 41, 59, 0.88);
+            border: 1px solid rgba(148, 163, 184, 0.14);
+            border-radius: 14px;
+            padding: 1rem;
+            min-height: 84px;
+            white-space: pre-wrap;
+        }
+        .result-box.success { border-color: #22c55e; }
+        .result-box.fail { border-color: #f97316; }
+        .footer {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 1rem;
+            align-items: center;
+            color: #94a3b8;
+            font-size: 0.95rem;
+        }
+        .footer a {
+            color: #93c5fd;
+            text-decoration: none;
+        }
+        .footer a:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+    <div class="app-shell">
+        <header>
+            <p style="margin: 0 0 1rem; font-size: 0.95rem; color: rgba(226, 232, 240, 0.85);">
+                <a href="index.html" style="color: #e2e8f0; text-decoration: none; border-bottom: 1px dashed rgba(226, 232, 240, 0.7);">← Back to Home</a>
+            </p>
+            <h1>Riddle Quest</h1>
+            <p>Answer clever riddles, earn streaks, and unlock hints as you explore a short brain-teasing adventure.</p>
+        </header>
+        <div class="content">
+            <div class="card">
+                <h2>Current Riddle</h2>
+                <p class="riddle-text" id="riddleText">Press "New Riddle" to begin your quest.</p>
+            </div>
+            <div class="card controls">
+                <input id="answerInput" type="text" placeholder="Type your answer here..." autocomplete="off" />
+                <button id="submitAnswer">Submit Answer</button>
+                <button id="newRiddle">New Riddle</button>
+                <button id="showHint">Show Hint</button>
+            </div>
+            <div class="status-panel">
+                <div class="status-block">
+                    <strong id="scoreValue">0</strong>
+                    <span>Points</span>
+                </div>
+                <div class="status-block">
+                    <strong id="streakValue">0</strong>
+                    <span>Correct Streak</span>
+                </div>
+                <div class="status-block">
+                    <strong id="attemptsValue">0</strong>
+                    <span>Attempts</span>
+                </div>
+            </div>
+            <div class="card">
+                <h2>Hint</h2>
+                <div class="hint-box" id="hintText">Hints appear here after you request one.</div>
+            </div>
+            <div class="card">
+                <h2>Result</h2>
+                <div class="result-box" id="resultText">Your result appears here after each answer.</div>
+            </div>
+            <div class="footer">
+                <span>Designed as a single-page challenge.</span>
+                <a href="resume.html">Back to the scratch page</a>
+            </div>
+        </div>
+    </div>
+    <script>
+        const riddles = [
+            {
+                question: 'I can be cracked, played, and told. What am I?',
+                answer: 'joke',
+                hint: 'It is a short funny story or punchline.'
+            },
+            {
+                question: 'The more you take, the more you leave behind. What are they?',
+                answer: 'footsteps',
+                hint: 'You leave them while moving forward.'
+            },
+            {
+                question: 'I speak without a mouth and hear without ears. I have nobody, but I come alive with wind. What am I?',
+                answer: 'echo',
+                hint: 'You hear it in a canyon when you shout.'
+            },
+            {
+                question: 'I have keys but no locks. I have space but no room. You can enter but can’t go outside. What am I?',
+                answer: 'keyboard',
+                hint: 'You use me every time you type.'
+            },
+            {
+                question: 'What runs but never walks, has a mouth but never talks?',
+                answer: 'river',
+                hint: 'It moves through valleys and under bridges.'
+            },
+            {
+                question: 'I’m tall when I’m young and short when I’m old. What am I?',
+                answer: 'candle',
+                hint: 'I glow and melt while I burn.'
+            }
+        ];
+
+        let currentRiddle = null;
+        let score = 0;
+        let streak = 0;
+        let attempts = 0;
+
+        const riddleText = document.getElementById('riddleText');
+        const answerInput = document.getElementById('answerInput');
+        const submitAnswer = document.getElementById('submitAnswer');
+        const newRiddle = document.getElementById('newRiddle');
+        const showHint = document.getElementById('showHint');
+        const hintText = document.getElementById('hintText');
+        const resultText = document.getElementById('resultText');
+        const scoreValue = document.getElementById('scoreValue');
+        const streakValue = document.getElementById('streakValue');
+        const attemptsValue = document.getElementById('attemptsValue');
+
+        function getRandomRiddle() {
+            const index = Math.floor(Math.random() * riddles.length);
+            return { ...riddles[index] };
+        }
+
+        function updateStatus() {
+            scoreValue.textContent = score;
+            streakValue.textContent = streak;
+            attemptsValue.textContent = attempts;
+        }
+
+        function setRiddle() {
+            currentRiddle = getRandomRiddle();
+            riddleText.textContent = currentRiddle.question;
+            hintText.textContent = 'Hints appear here after you request one.';
+            resultText.textContent = 'Submit an answer to see if you solved it.';
+            resultText.className = 'result-box';
+            answerInput.value = '';
+            answerInput.focus();
+        }
+
+        function normalize(text) {
+            return text.trim().toLowerCase().replace(/[\W_]+/g, '');
+        }
+
+        function handleSubmit() {
+            if (!currentRiddle) {
+                resultText.textContent = 'Press "New Riddle" first.';
+                resultText.className = 'result-box fail';
+                return;
+            }
+            const guess = normalize(answerInput.value);
+            attempts += 1;
+            if (!guess) {
+                resultText.textContent = 'Type an answer before submitting.';
+                resultText.className = 'result-box fail';
+                updateStatus();
+                return;
+            }
+            if (guess === normalize(currentRiddle.answer)) {
+                score += 10 + Math.max(0, 5 - streak);
+                streak += 1;
+                resultText.textContent = `Correct! The answer is ${currentRiddle.answer}. Press New Riddle for another challenge.`;
+                resultText.className = 'result-box success';
+                currentRiddle = null;
+            } else {
+                streak = 0;
+                resultText.textContent = `Not quite. Try again or ask for a hint.`;
+                resultText.className = 'result-box fail';
+            }
+            updateStatus();
+        }
+
+        function handleHint() {
+            if (!currentRiddle) {
+                hintText.textContent = 'Start a new riddle to unlock hints.';
+                return;
+            }
+            hintText.textContent = currentRiddle.hint;
+        }
+
+        newRiddle.addEventListener('click', setRiddle);
+        submitAnswer.addEventListener('click', handleSubmit);
+        showHint.addEventListener('click', handleHint);
+        answerInput.addEventListener('keydown', event => {
+            if (event.key === 'Enter') {
+                event.preventDefault();
+                handleSubmit();
+            }
+        });
+
+        setRiddle();
+        updateStatus();
+    </script>
+</body>
+</html>
