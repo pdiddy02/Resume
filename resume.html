@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Payton Webley — Résumé (Scratch Page)</title>
+  <link rel="stylesheet" href="css/resume.css">
+</head>
+<body id="top">
+  <header class="site-header">
+    <h1>Payton Webley — Résumé</h1>
+    <a class="back-link" href="index.html">← Back to Home (professional pages)</a>
+  </header>
+
+  <div class="container">
+    <div class="row">
+      <main class="main">
+        <h2 class="section-title">Experience</h2>
+        <p>3 years in sales</p>
+        <ul>
+          <li>Consistently exceeded sales targets by 20% through effective customer relationship management</li>
+          <li>Developed and implemented successful sales strategies that increased revenue by 15%</li>
+          <li>Received "Top Sales Performer" award for three consecutive years</li>
+        </ul>
+
+        <h2 class="section-title" id="education">Education</h2>
+        <p>Brigham Young University — Bachelor's degree in Marketing</p>
+
+        <h2 class="section-title">Skills</h2>
+        <p>Technical and soft skills include:</p>
+        <ol>
+          <li>Communication
+            <ul class="nested">
+              <li>Excellent communication, negotiation, and customer service skills</li>
+            </ul>
+          </li>
+          <li>Tools
+            <ul class="nested">
+              <li>Proficient in CRM software and Microsoft Office Suite</li>
+              <li>Tableau, SQL, Excel (Solver, Pivot Tables, Charts)</li>
+            </ul>
+          </li>
+          <li>Development
+            <ul class="nested">
+              <li>Database design, ER diagramming, HTML/CSS</li>
+              <li>VBA programming in Excel, flow chart diagramming</li>
+            </ul>
+          </li>
+        </ol>
+
+        <h2 class="section-title">High School & BYU Activities</h2>
+        <p>High school:</p>
+        <ul>
+          <li>Participated and won awards in FFA</li>
+          <li>Captain of the track team (senior year)</li>
+          <li>Member of FBLA</li>
+        </ul>
+        <p>BYU:</p>
+        <ul>
+          <li>Member of the Marketing Association</li>
+          <li>Member of the Entrepreneurship Club</li>
+          <li>Honors Program Student</li>
+        </ul>
+
+        <h2 class="section-title">Personal</h2>
+        <p>Hobby: I enjoy playing basketball, throwing parties, building businesses, and hunting.</p>
+        <p><a href="webapp.html" style="display:inline-block;margin-top:0.75rem;padding:0.85rem 1.2rem;background:#083d77;color:#fff;border-radius:8px;text-decoration:none;">Open the Riddle Quest app</a></p>
+
+        <div class="video-wrap">
+          <h3 class="section-title">Cosmo Stunts</h3>
+          <!-- Embedded YouTube video -->
+          <iframe src="https://www.youtube.com/embed/DFdC8ZR0aOg" title="Cosmo Stunts" allowfullscreen></iframe>
+        </div>
+
+        <h3 class="section-title">Favorite Place</h3>
+        <!-- external image not from Bootstrap theme -->
+        <img class="profile" src="assets/Disneyland.webp" alt="Disneyland photo">
+
+        <h3 class="section-title">BYU's Favorite News</h3>
+        <p>This is an embedded Tableau public visualization that encapsulates BYU student's favorite news sources.</p>
+        <div class="tableau-wrap">
+          <div class='tableauPlaceholder' id='viz_resume_001' style='position: relative'>
+            <noscript>
+              <a href='#'><img alt='Tableau Viz' src='https://public.tableau.com/static/images/Av/AverageNewsConsumptionFrequencyforBYU-IdahoStudents/Dashboard1/1_rss.png' style='border: none' /></a>
+            </noscript>
+            <object class='tableauViz'  style='display:none;'>
+              <param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' />
+              <param name='embed_code_version' value='3' />
+              <param name='site_root' value='' />
+              <param name='name' value='AverageNewsConsumptionFrequencyforBYU-IdahoStudents/Dashboard1' />
+              <param name='tabs' value='no' />
+              <param name='toolbar' value='yes' />
+              <param name='static_image' value='https://public.tableau.com/static/images/Av/AverageNewsConsumptionFrequencyforBYU-IdahoStudents/Dashboard1/1.png' />
+              <param name='animate_transition' value='yes' />
+              <param name='display_static_image' value='yes' />
+              <param name='display_spinner' value='yes' />
+              <param name='display_overlay' value='yes' />
+              <param name='display_count' value='yes' />
+              <param name='language' value='en-US' />
+            </object>
+          </div>
+        </div>
+
+      </main>
+
+      <aside class="sidebar">
+        <h3 class="section-title">Contact</h3>
+        <p>Email: <a href="mailto:pdiddy02@byu.edu">pdiddy02@byu.edu</a></p>
+        <p>LinkedIn: <a href="https://www.linkedin.com/in/payton-webley-3b4645298/">Profile</a></p>
+      </aside>
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    <div class="container">
+      <a class="back-link" href="#top">Return to top</a>
+    </div>
+  </footer>
+
+  <script>
+    // initialize tableau viz when page loads
+    (function(){
+      try{
+        var divElement = document.getElementById('viz_resume_001');
+        var vizElement = divElement.getElementsByTagName('object')[0];
+        vizElement.style.width='100%'; vizElement.style.height='600px';
+        var scriptElement = document.createElement('script');
+        scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';
+        vizElement.parentNode.insertBefore(scriptElement, vizElement);
+      }catch(e){console.error('Tableau init failed', e)}
+    })();
+  </script>
+</body>
+</html>
